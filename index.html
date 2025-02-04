@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas Animado</title>
+    <style>
+        body {
+            background-color: black;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .moving-text {
+            font-size: 50px;
+            font-weight: bold;
+            color: white;
+            position: absolute;
+            white-space: nowrap;
+            animation: moveText 5s linear infinite alternate;
+        }
+        
+        @keyframes moveText {
+            from {
+                left: 0;
+            }
+            to {
+                left: 100%;
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="moving-text">Lucas</div>
+</body>
+</html>
