@@ -1,39 +1,124 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucas Animado</title>
+    <title>Rola ou não rola?</title>
     <style>
         body {
-            background-color: black;
+            font-family: Arial, sans-serif;
+            text-align: center;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #f4f4f4;
+            position: relative;
             height: 100vh;
+            transition: background 1s ease-in-out;
         }
-        .moving-text {
-            font-size: 50px;
-            font-weight: bold;
-            color: white;
+        .container {
             position: absolute;
-            white-space: nowrap;
-            animation: moveText 5s linear infinite alternate;
+            width: 100%;
+            top: 20%;
+            animation: piscar 1.5s infinite alternate;
         }
-        
-        @keyframes moveText {
-            from {
-                left: 0;
-            }
-            to {
-                left: 100%;
-                transform: translateX(-100%);
-            }
+        @keyframes piscar {
+            0% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        .botao {
+            position: absolute;
+            padding: 15px 25px;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            border-radius: 10px;
+        }
+        .sim {
+            background-color: green;
+        }
+        .nao {
+            background-color: red;
+        }
+        #mensagem {
+            display: none;
+            font-size: 20px;
+            color: green;
+            margin-top: 20px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
         }
     </style>
 </head>
 <body>
-    <div class="moving-text">Lucas</div>
+    <div class="container">
+        <h1>🎭 Rola ou não rola? 🤔</h1>
+        <button class="botao sim" onclick="confirmar()">Sim</button>
+        <button class="botao nao" onmouseover="moverBotao()">Não</button>
+        <p id="mensagem"></p>
+    </div>
+    <script>
+        function confirmar() {
+            document.getElementById("mensagem").innerHTML = "🎉 Sua resposta foi enviada com sucesso! (Sim) 🎊";
+            document.getElementById("mensagem").style.display = "block";
+            document.getElementById("mensagem").style.opacity = "1";
+            document.getElementById("mensagem").style.transform = "scale(1)";
+            
+            document.body.style.background = "linear-gradient(45deg, #ff6b6b, #feca57, #ff9ff3, #48dbfb, #1dd1a1)";
+            document.body.style.backgroundSize = "400% 400%";
+            document.body.style.animation = "bgMove 5s infinite alternate";
+            
+            tocarSomSim();
+        }
+        
+        function moverBotao() {
+            let botaoNao = document.querySelector(".nao");
+            let largura = window.innerWidth - botaoNao.clientWidth;
+            let altura = window.innerHeight - botaoNao.clientHeight;
+            let novoX = Math.floor(Math.random() * largura);
+            let novoY = Math.floor(Math.random() * altura);
+            botaoNao.style.left = novoX + "px";
+            botaoNao.style.top = novoY + "px";
+            
+            tocarSomNao();
+        }
+        
+        function tocarSomSim() {
+            let sonsEngracados = [
+                'https://www.myinstants.com/media/sounds/ideia-plim.mp3',
+            ];
+            let audio = new Audio(sonsEngracados[Math.floor(Math.random() * sonsEngracados.length)]);
+            audio.play();
+        }
+        
+        function tocarSomNao() {
+            let audio = new Audio('https://www.myinstants.com/media/sounds/cartoon-slip.mp3');
+            audio.play();
+        }
+        
+        function animarBotoes() {
+            let botoes = document.querySelectorAll(".botao");
+            botoes.forEach(botao => {
+                let direcaoX = Math.random() < 0.5 ? -1 : 1;
+                let direcaoY = Math.random() < 0.5 ? -1 : 1;
+                setInterval(() => {
+                    let novaPosX = (botao.offsetLeft + (direcaoX * 5)) % window.innerWidth;
+                    let novaPosY = (botao.offsetTop + (direcaoY * 5)) % window.innerHeight;
+                    botao.style.left = (novaPosX < 0 ? window.innerWidth + novaPosX : novaPosX) + "px";
+                    botao.style.top = (novaPosY < 0 ? window.innerHeight + novaPosY : novaPosY) + "px";
+                }, 100);
+            });
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            let botoes = document.querySelectorAll(".botao");
+            botoes.forEach(botao => {
+                botao.style.position = "absolute";
+                botao.style.left = Math.random() * (window.innerWidth - botao.clientWidth) + "px";
+                botao.style.top = Math.random() * (window.innerHeight - botao.clientHeight) + "px";
+            });
+            animarBotoes();
+        });
+    </script>
 </body>
 </html>
